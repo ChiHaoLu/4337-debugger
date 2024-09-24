@@ -53,7 +53,7 @@ jobs:
         env: 
             PAT: ${{ secrets.PAT }}
         run: |
-          sed -i.back "s|{{PAT}}|${PAT}|g" /.npmrc
+          sed -i.back "s|{{PAT}}|${PAT}|g" ./.npmrc
       - name: Setup Node
         uses: actions/setup-node@v4
         with:

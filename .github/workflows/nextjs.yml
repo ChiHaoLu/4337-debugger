@@ -34,7 +34,6 @@ jobs:
       - name: Detect package manager
         id: detect-package-manager
         run: |
-          export PAT=${{ secrets.PAT }}
           if [ -f "${{ github.workspace }}/yarn.lock" ]; then
             echo "manager=yarn" >> $GITHUB_OUTPUT
             echo "command=install" >> $GITHUB_OUTPUT
@@ -49,11 +48,19 @@ jobs:
             echo "Unable to determine package manager"
             exit 1
           fi
+      - name: Replace values
+        shell: bash
+        env: 
+            PAT: ${{ secrets.PAT }}
+        run: |
+          sed -i.back "s|{{PAT}}|${PAT}|g" /.npmrc
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
+        # env: 
+        #   PAT: ${{ secrets.PAT }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:

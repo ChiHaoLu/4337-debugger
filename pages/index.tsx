@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   simulate,
   BundlerUserOperationData,
@@ -16,6 +16,7 @@ const Home = () => {
   const [richBundlerEOA, setRichBundlerEOA] = useState<Address>(
     "0x4d7f573039fddc84fdb28515ba20d75ef6b987ff"
   );
+  const [network, setNetwork] = useState("11155111");
 
   // userOp input
   const [input, setInput] = useState(`{
@@ -65,7 +66,8 @@ const Home = () => {
         richBundlerEOA,
         parsedInput?.wrapped,
         projectOwner,
-        projectName
+        projectName,
+        network
       );
 
       setResult(JSON.stringify(simulationResult, null, 2));
@@ -152,11 +154,48 @@ const Home = () => {
       setParsedInput(null);
     }
   };
+  
+  const handleResultClick = () => {
+    const url = result.startsWith('"') ? JSON.parse(result) : result;
+    window.open(url, "_blank");
+  };
 
   return (
     <div>
+      <div className="warning-banner">
+        <p>
+          This default configuration currently only supports the Sepolia
+          Testnet.
+          <br /> If you wish to use a different network, please create a
+          Tenderly project on your own.
+        </p>
+      </div>
       <h1>AA Debugger</h1>
-      <h2>1. Give the required Tenderly Config</h2>
+
+      <div>
+        <p>
+          Twitter:{" "}
+          <a
+            href="https://twitter.com/murmurlu"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @murmurlu
+          </a>
+        </p>
+        <p>
+          Github Repo:{" "}
+          <a
+            href="https://github.com/ChiHaoLu/4337-debugger/tree/main"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            4337-debugger
+          </a>
+        </p>
+      </div>
+
+      <h2>1. Fill Up the Tenderly Config</h2>
       <div>
         <label>
           TENDERLY_ACCESS_KEY:
@@ -202,12 +241,24 @@ const Home = () => {
         </label>
       </div>
 
+      <div>
+        <label>
+          Chain ID:
+          <input
+            type="text"
+            value={network}
+            onChange={(e) => setNetwork(e.target.value)}
+            required
+          />
+        </label>
+      </div>
+
       <h2>2. Give your userOp</h2>
       <h3>UserOp Input</h3>
       <div>
         <label>
           <textarea
-            rows={35}
+            rows={30}
             cols={100}
             value={input}
             onChange={handleInputChange}
@@ -224,19 +275,16 @@ const Home = () => {
         )}
       </div>
 
-      <h2>3. Simulate and get the dashboard url</h2>
+      <h2>3. Simulate Time!</h2>
       <button onClick={handleSimulate} disabled={loading || isSimulateDisabled}>
         {loading ? "Simulating..." : "Run Simulation"}
       </button>
       {result !== "" && (
-        <div>
+        <div className="simulation-result">
           <h3>Simulation Result:</h3>
-          <a
-            target="_blank"
-            href={result.startsWith('"') ? JSON.parse(result) : result}
-          >
-            click me
-          </a>
+          <button onClick={handleResultClick}>
+            Go to Dashboard! (required login Tenderly)
+          </button>
         </div>
       )}
     </div>

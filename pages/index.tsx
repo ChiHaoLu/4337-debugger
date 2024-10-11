@@ -5,6 +5,7 @@ import {
   PackedUserOperation,
   unwrap,
   wrap,
+  SimulateType,
 } from "@consenlabs/imaccount-sdk";
 import { Address } from "viem";
 
@@ -17,6 +18,10 @@ const Home = () => {
     "0x4d7f573039fddc84fdb28515ba20d75ef6b987ff"
   );
   const [network, setNetwork] = useState("11155111");
+  const [blockNumber, setBlockNumber] = useState("latest");
+  const [simulateType, setSimulateType] = useState<SimulateType>(
+    SimulateType.Send
+  );
 
   // userOp input
   const [input, setInput] = useState(`{
@@ -60,14 +65,15 @@ const Home = () => {
 
     setLoading(true);
     try {
-      console.log(input);
       const simulationResult = await simulate(
+        simulateType,
         TENDERLY_ACCESS_KEY,
         richBundlerEOA,
-        parsedInput?.wrapped,
+        parsedInput.wrapped,
         projectOwner,
         projectName,
-        network
+        network,
+        blockNumber
       );
 
       setResult(JSON.stringify(simulationResult, null, 2));
@@ -117,6 +123,7 @@ const Home = () => {
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setResult("");
     const text = e.target.value;
     setInput(text);
     try {
@@ -154,7 +161,7 @@ const Home = () => {
       setParsedInput(null);
     }
   };
-  
+
   const handleResultClick = () => {
     const url = result.startsWith('"') ? JSON.parse(result) : result;
     window.open(url, "_blank");
@@ -240,7 +247,6 @@ const Home = () => {
           />
         </label>
       </div>
-
       <div>
         <label>
           Chain ID:
@@ -253,7 +259,35 @@ const Home = () => {
         </label>
       </div>
 
+      <div>
+        <label>
+          Block Number:
+          <input
+            type="text"
+            value={blockNumber}
+            onChange={(e) => setBlockNumber(e.target.value)}
+            required
+          />
+        </label>
+      </div>
+
       <h2>2. Give your userOp</h2>
+      <h3>Simulate Usage</h3>
+      <div>
+        <label>
+          Simulate Type (where you meet the problem?):{" "}
+          <select
+            value={simulateType}
+            onChange={(e) => setSimulateType(e.target.value as SimulateType)}
+          >
+            {Object.values(SimulateType).map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
       <h3>UserOp Input</h3>
       <div>
         <label>

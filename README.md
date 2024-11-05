@@ -1,3 +1,3 @@
-# Tenderly 4337 Debugger
+# ERC-4337 Debugger
 
-Directly gives your Tenderly's user name, project name and access key, you can debug any userOp!
+You can debug any userOp here!

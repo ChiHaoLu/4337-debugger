@@ -61,15 +61,6 @@ const AccountInfo = () => {
         <p>It is an experimental feature. Please use it cautiously.</p>
       </div>
       <div>
-        <h4>Address</h4>
-        <label>
-          <input
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value as Address)}
-            required
-          />
-        </label>
         <h4>Contract Type</h4>
         <label>
           <select
@@ -82,6 +73,24 @@ const AccountInfo = () => {
               </option>
             ))}
           </select>
+        </label>
+        <h4>Address</h4>
+        <label>
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value as Address)}
+            required
+          />
+        </label>
+        <h4>Alchemy RPC URL</h4>
+        <label>
+          <input
+            type="text"
+            value={ALCHEMY_RPC_URL}
+            onChange={(e) => setALCHEMY_RPC_URL(e.target.value)}
+            required
+          />
         </label>
       </div>
       <div>

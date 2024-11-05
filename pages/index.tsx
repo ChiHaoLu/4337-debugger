@@ -8,6 +8,9 @@ const Home = () => {
   return (
     <div className="container">
       <Header />
+      <div className="gif-container">
+        <img src="/chiikawa.gif" alt="GIF" className="gif" />
+      </div>
       <div className="link-container">
         <Link href="/explorer">
           <div className="link">Go to 4337 Explorer</div>

@@ -11,7 +11,9 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4,
+h5 {
     color: #d32f2f;
     /* Traditional Japanese red */
 }
@@ -117,5 +119,99 @@ footer {
 }
 
 .simulation-result button:hover {
+    background-color: #b71c1c;
+}
+
+.link-container {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.link {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #d32f2f;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.link:hover {
+    background-color: #b71c1c;
+}
+
+.explorer-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-section {
+    margin-bottom: 20px;
+}
+
+.data-section {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.label {
+    font-weight: bold;
+    color: #555;
+}
+
+.log-entry {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+}
+
+.data-box {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+pre {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+a {
+    color: #d32f2f;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    background-color: #d32f2f;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:disabled {
+    background-color: #ccc;
+}
+
+button:hover:enabled {
     background-color: #b71c1c;
 }

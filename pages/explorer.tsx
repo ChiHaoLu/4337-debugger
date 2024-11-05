@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { Address, formatEther, fromHex, Hex, zeroAddress } from "viem";
+import { formatEther, fromHex, Hex, zeroAddress } from "viem";
 import {
   getPublicClient,
   INFRA_ADDRESS,
   BundlerMode,
   BundlerProvider,
+  BundlerUserOperationData,
+  PackedUserOperation,
+  wrap,
 } from "@consenlabs/imaccount-sdk";
 import { UserOpReceipt } from "../types/receipt";
 import Header from "./header";
@@ -23,7 +26,11 @@ const Explorer = () => {
     process.env.NEXT_PUBLIC_RPC_URL ??
       "https://<chain_prefix>.g.alchemy.com/v2/<your_api_key>"
   );
+  const [chainName, setChainName] = useState<string|null>()
   const [userOpReceipt, setUserOpReceipt] = useState<UserOpReceipt | null>(
+    null
+  );
+  const [userOpInfo, setUserOpInfo] = useState<PackedUserOperation | null>(
     null
   );
   const [fetching, setFetching] = useState(false);
@@ -70,12 +77,14 @@ const Explorer = () => {
     if (!ALCHEMY_RPC_URL) return "https://";
 
     const provider = getPublicClient(ALCHEMY_RPC_URL);
+    if (!chainName || chainName === "") {
+      setChainName(provider.chain?.name);
+    }
     const explorerLink = provider.chain?.blockExplorers?.default.url;
 
     if (!explorerLink) return "https://";
 
     const dataLink = explorerLink + type + address;
-    console.log(explorerLink + type + address);
     return dataLink;
   };
 
@@ -93,6 +102,9 @@ const Explorer = () => {
     });
 
     try {
+      const info = await bundler.getUserOperationByHash(userOpHash);
+      setUserOpInfo(wrap(info.userOperation));
+
       const receipt = await bundler.getUserOperationReceipt(userOpHash);
       const completeReceipt = mapToUserOpReceipt(receipt);
       setUserOpReceipt(completeReceipt);
@@ -136,8 +148,11 @@ const Explorer = () => {
       </button>
       {userOpReceipt && (
         <div className="explorer-result">
-          <h3>User Operation Info:</h3>
+          <h3>Overview</h3>
           <div className="data-section">
+            <div>
+              <span className="label">Chain</span> {chainName}
+            </div>
             <div>
               <span className="label">UserOp Hash</span>{" "}
               {userOpReceipt.userOpHash}
@@ -179,7 +194,9 @@ const Explorer = () => {
             </div>
             <div>
               <span className="label">Gas Cost</span>{" "}
-              {userOpReceipt.actualGasCost} ETH
+              {userOpReceipt.paymaster === zeroAddress
+                ? `${userOpReceipt.actualGasCost} ETH`
+                : `Paid ERC-20 token value approaching to ${userOpReceipt.actualGasCost} ETH`}
             </div>
             <div>
               <span className="label">Gas Used</span>{" "}
@@ -236,8 +253,46 @@ const Explorer = () => {
               </a>
             </div>
           </div>
+
+          <h3>UserOp Detail</h3>
           <div className="data-section">
-            <h4>Logs</h4>
+            <div>
+              <span className="label">Sender</span> {userOpInfo?.sender}
+            </div>
+            <div>
+              <span className="label">Nonce</span> {String(userOpInfo?.nonce)}
+            </div>
+            <div>
+              <span className="label">Initcode</span> {""}
+              <div className="data-box">{userOpInfo?.initCode}</div>
+            </div>
+            <div>
+              <span className="label">CallData</span> {""}
+              <div className="data-box">{userOpInfo?.callData}</div>
+            </div>
+            <div>
+              <span className="label">AccountGasLimits</span>{" "}
+              {userOpInfo?.accountGasLimits}
+            </div>
+            <div>
+              <span className="label">PreVerificationGas</span>{" "}
+              {String(userOpInfo?.preVerificationGas)}
+            </div>
+            <div>
+              <span className="label">GasFees</span> {userOpInfo?.gasFees}
+            </div>
+            <div>
+              <span className="label">PaymasterAndData</span>{" "}
+              <div className="data-box">{userOpInfo?.paymasterAndData}</div>
+            </div>
+            <div>
+              <span className="label">Signature</span>{" "}
+              <div className="data-box">{userOpInfo?.signature}</div>
+            </div>
+          </div>
+
+          <h3>Event Logs</h3>
+          <div className="data-section">
             {userOpReceipt.logs &&
               userOpReceipt.logs.map((log: any, index: number) => (
                 <div key={index} className="log-entry">
@@ -262,7 +317,7 @@ const Explorer = () => {
               ))}
           </div>
 
-          <h4>Whole Receipt in JSON</h4>
+          <h3>Whole Receipt in JSON</h3>
           <pre>{JSON.stringify(userOpReceipt, null, 2)}</pre>
         </div>
       )}

@@ -306,10 +306,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@consenlabs/imaccount-sdk@^0.1.28":
-  version "0.1.28"
-  resolved "https://npm.pkg.github.com/download/@consenlabs/imaccount-sdk/0.1.28/e82fe79a2ffdc5eb6e88b6a5a626be1206394036#e82fe79a2ffdc5eb6e88b6a5a626be1206394036"
-  integrity sha512-jxvW5kBpnTDOPOlY6AL70vyIrEoFv1SpRvGglKHalhqH7DU9072J3r9GPOKM8jwSg8JiT5e3Lco+dZlf2/6kvQ==
+"@consenlabs/imaccount-sdk@^0.1.29":
+  version "0.1.29"
+  resolved "https://npm.pkg.github.com/download/@consenlabs/imaccount-sdk/0.1.29/852bcba07fe3831a45cbf820abd6dbe6e67f6c3a#852bcba07fe3831a45cbf820abd6dbe6e67f6c3a"
+  integrity sha512-mvL/LpJU8BMh8H7LczO0uVWEOB2YynDVK3kTpsV3B/HU9xkJ9SbAKXLFzWzpQbiqaR8UZNBVvbAk6OXcnx1qOg==
   dependencies:
     "@simplewebauthn/server" "^10.0.1"
     dotenv "^16.4.5"

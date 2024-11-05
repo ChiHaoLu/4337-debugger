@@ -307,7 +307,14 @@ const Explorer = () => {
                   </div>
                   <div>
                     <span className="label">Topics</span>
-                    <div>{log.topics.join("\n ")}</div>
+                    <div>
+                      {log.topics.map((topic: any, index: any) => (
+                        <span key={index}>
+                          {topic}
+                          <br />
+                        </span>
+                      ))}
+                    </div>
                   </div>
                   <div>
                     <span className="label">Data</span>

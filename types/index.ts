@@ -1,5 +1,11 @@
 import { Address } from "viem";
 
+export enum DataType {
+  Address = "/address/",
+  Transaction = "/tx/",
+  Block = "/block/",
+}
+
 export type Log = {
   address: Address;
   topics: string[];

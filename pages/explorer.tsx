@@ -5,18 +5,11 @@ import {
   INFRA_ADDRESS,
   BundlerMode,
   BundlerProvider,
-  BundlerUserOperationData,
   PackedUserOperation,
   wrap,
 } from "@consenlabs/imaccount-sdk";
-import { UserOpReceipt } from "../types/receipt";
+import { DataType, UserOpReceipt } from "../types";
 import Header from "./header";
-
-enum DataType {
-  Address = "/address/",
-  Transaction = "/tx/",
-  Block = "/block/",
-}
 
 const Explorer = () => {
   const [userOpHash, setUserOpHash] = useState<Hex>(
@@ -26,7 +19,7 @@ const Explorer = () => {
     process.env.NEXT_PUBLIC_RPC_URL ??
       "https://<chain_prefix>.g.alchemy.com/v2/<your_api_key>"
   );
-  const [chainName, setChainName] = useState<string|null>()
+  const [chainName, setChainName] = useState<string | null>();
   const [userOpReceipt, setUserOpReceipt] = useState<UserOpReceipt | null>(
     null
   );

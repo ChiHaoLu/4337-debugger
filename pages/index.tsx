@@ -3,13 +3,21 @@ import Link from "next/link";
 
 import Header from "./header";
 import Footer from "./footer";
+import Image from "next/image";
 
 const Home = () => {
   return (
     <div className="container">
       <Header />
       <div className="gif-container">
-        <img src="/chiikawa.GIF" alt="GIF" className="gif" />
+        <Image
+          src="/chiikawa.gif"
+          alt="Usagi"
+          width={0}
+          height={0}
+          sizes="100vw"
+          style={{ width: "50%", height: "auto" }}
+        />
       </div>
       <div className="link-container">
         <Link href="/explorer">

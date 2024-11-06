@@ -14,6 +14,13 @@ const Footer = () => {
           v0.1.29
         </a>
       </p>
+
+      <h3>Project Inspiration</h3>
+      <ul>
+        <li className="list">Tenderly</li>
+        <li className="list">Pimlico Debugger</li>
+        <li className="list">Jiffyscan</li>
+      </ul>
     </div>
   );
 };

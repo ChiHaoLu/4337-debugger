@@ -9,7 +9,7 @@ const Home = () => {
     <div className="container">
       <Header />
       <div className="gif-container">
-        <img src="/chiikawa.gif" alt="GIF" className="gif" />
+        <img src="/chiikawa.GIF" alt="GIF" className="gif" />
       </div>
       <div className="link-container">
         <Link href="/explorer">
@@ -19,7 +19,10 @@ const Home = () => {
           <div className="link">Go to 4337 Debugger</div>
         </Link>
         <Link href="/imaccount-info">
-          <div className="link">imToken AA Wallet Infomation</div>
+          <div className="link">imToken AA Wallet Watcher</div>
+        </Link>
+        <Link href="/tool">
+          <div className="link">Debug Toolkit</div>
         </Link>
       </div>
       <Footer />

@@ -78,6 +78,11 @@ a:hover {
     text-decoration: underline;
 }
 
+.list{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 footer {
     background-color: #333;
     color: #dcdcdc;

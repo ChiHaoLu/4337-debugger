@@ -8,13 +8,16 @@ import {
   SimulateType,
   getUserOpHash,
   INFRA_ADDRESS,
+  getMaxGasCost,
 } from "@consenlabs/imaccount-sdk";
 import { Address } from "viem";
 import Header from "./header";
 
 const Debugger = () => {
   // Tenderly Config
-  const [TENDERLY_ACCESS_KEY, setTENDERLY_ACCESS_KEY] = useState(process.env.NEXT_PUBLIC_TENDERLY_ACCESS_KEY || "");
+  const [TENDERLY_ACCESS_KEY, setTENDERLY_ACCESS_KEY] = useState(
+    process.env.NEXT_PUBLIC_TENDERLY_ACCESS_KEY || ""
+  );
   const [projectOwner, setProjectOwner] = useState("ChiHaoLu");
   const [projectName, setProjectName] = useState("aatest");
   const [richBundlerEOA, setRichBundlerEOA] = useState<Address>(
@@ -46,6 +49,7 @@ const Debugger = () => {
     serialized: string;
   } | null>(null);
   const [parseError, setParseError] = useState<string | null>(null);
+  const [cost, setCost] = useState<string>();
 
   // Result
   const [loading, setLoading] = useState(false);
@@ -147,6 +151,7 @@ const Debugger = () => {
           unwrapped: unwrap(parsed as PackedUserOperation),
           serialized: serialized,
         });
+        setCost(String(getMaxGasCost(parsed)));
       } else {
         const serialized = parse({
           wrapped: wrap(parsed as BundlerUserOperationData),
@@ -157,6 +162,7 @@ const Debugger = () => {
           unwrapped: parsed as BundlerUserOperationData,
           serialized: serialized,
         });
+        setCost(String(getMaxGasCost(parsed)));
       }
       setParseError(null);
     } catch (error) {
@@ -294,6 +300,12 @@ const Debugger = () => {
             </pre>
             <h5>Parsed Input Data:</h5>
             <pre>{parsedInput.serialized}</pre>
+            {simulateType === SimulateType.Send && (
+              <div>
+                <h5>Max Gas Cost:</h5>
+                <pre>{cost}</pre>
+              </div>
+            )}
           </div>
         )}
       </div>
